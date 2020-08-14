@@ -1,0 +1,11 @@
+
+src/services/MasterCoder.API/bin/*
+src/services/MasterCoder.API/obj/*
+src/.vs/*
+src/test/MasterCoder.Domain.Test/bin/*
+src/test/MasterCoder.Domain.Test/obj/*
+src/test/MasterCoder.Integration.Test/bin/*
+src/test/MasterCoder.Integration.Test/obj/*
+src/web/webSpa/.vscode/*
+src/services/MasterCoder.Domain.Core/obj/*
+src/services/MasterCoder.Domain.Core/bin/*

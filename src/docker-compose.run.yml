@@ -1,0 +1,50 @@
+version: '3.4'
+
+volumes:
+    my-db:
+
+networks:
+    app-network:
+        driver: bridge
+
+services:
+    sqlserver2017:
+        image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu    
+        environment:
+          - SA_PASSWORD=sUper45!pas5word
+          - ACCEPT_EULA=Y 
+          - MSSQL_PID=Express      
+        ports:
+          - "1433:1433"
+        volumes:
+          - my-db:/var/opt/mssql    
+        networks:
+          - app-network 
+              
+    mastercoder-api:
+        image: "mastercoder-api" 
+        build:
+            context : .
+        ports: 
+            - "50010:80"            
+        networks:
+            - app-network                         
+        environment: 
+            - CONNECTION_STRING=Server=localhost,1433\Express;Database=mastercoder;User Id=sa;Password=sUper45!pas5word   
+        depends_on:
+            - sqlserver2017
+
+    mastercoder-spaweb:
+        build:
+            context: web/webSpa/            
+            dockerfile: Dockerfile
+        volumes:
+            - ".:/app"
+            - "/app/node_modules"
+            - "/app/dist"
+        ports:
+            - "28002:80"
+        depends_on:
+            - mastercoder-api                        
+        networks:
+            - app-network             
